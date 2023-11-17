@@ -1,0 +1,56 @@
+#Somme des nombres
+nb, rst = int(input("Entrez un nombre entier : ")), 0
+
+while rst < nb:
+   rst = 1+rst
+   print(rst)
+
+
+#Table de multiplication
+def multiplication():
+    nb, mtpl, rst = int(input("Entrez un nombre entier : ")), 0, 0
+
+    while mtpl <= 10:
+        rst = nb*mtpl
+        mtpl = mtpl+1
+
+multiplication()
+
+#Compteur Pair Impair
+nb = [1,10]
+def pair():
+    for nb in range(1,11):
+        if nb % 2 == 0:
+            print(nb, " est pair")
+        else:
+            print(nb, " est impair")
+
+pair()
+
+#factorielle
+def factorielle():
+    N = int(input("Entrez un nombre entier N: "))
+
+    factorielle = 1
+
+    for i in range(1, N + 1):
+        factorielle *= i
+
+    print(f"La factorielle de {N} est: {factorielle}")
+
+factorielle()
+
+
+#palindrome
+def palindrome(mot):
+    mot = mot.lower()
+
+    # Supprimer les espaces et les signes de ponctuation (optionnel)
+    mot = ''.join(char for char in mot if char.isalnum())
+
+    # Vérifier si le mot est un palindrome
+    return mot == mot[::-1]
+
+mot = str(input('Renseigez un mot: '))
+resultat = palindrome(mot)
+print(f"Le mot '{mot}' est-il un palindrome ? {resultat}")
