@@ -22,7 +22,7 @@ while True:
             del contacts[nom]
         else:
             print("Ce contact n'existe pas.")
-    elif action == "rechercher":
+    elif action == "rechercher" or "r":
         nom = input("Entrez le nom du contact à rechercher: ")
         # Recherche en ignorant la casse
         nom = nom.lower()
