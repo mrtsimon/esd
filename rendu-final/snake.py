@@ -1,64 +1,183 @@
+import turtle
+import time
 import random
-import curses
+import sys
 
-s = curses.initscr()
-curses.curs_set(0)
-curses.start_color()  # Add this line
-sh, sw = s.getmaxyx()
-w = curses.newwin(sh, sw, 0, 0)
-w.keypad(1)
-w.timeout(100)
+delay = 0.1
 
-snk_x = sw//4
-snk_y = sh//2
-snake = [
-    [snk_y, snk_x],
-    [snk_y, snk_x-1],
-    [snk_y, snk_x-2]
-]
+try:
+    turtle.Screen()
+except turtle.Terminator:
+    print("Pas d'interface graphique disponible. Quitter le programme.")
+    sys.exit()
 
-food = [sh//2, sw//2]
-w.addch(int(food[0]), int(food[1]), curses.ACS_PI, curses.color_pair(2))
-
+# Score
 score = 0
+high_score = 0
 
-key = curses.KEY_RIGHT
+# Initialiser le prénom du joueur
+prenom_joueur = turtle.textinput("Bienvenue au Snake Game!", "Entrez votre prénom: ")
 
+# Set up the screen
+wn = turtle.Screen()
+wn.title("Snake Game")
+wn.bgcolor("black")
+wn.setup(width=600, height=600)
+wn.tracer(0)  # Désactive les mises à jour de l'écran
+
+# Snake head
+head = turtle.Turtle()
+head.speed(0)
+head.shape("square")
+head.color("red")
+head.penup()
+head.goto(0, 0)
+head.direction = "up"  # Initialiser la direction du serpent
+
+# Snake food
+food = turtle.Turtle()
+food.speed(0)
+food.shape("circle")
+food.color("blue")
+food.penup()
+food.goto(0, 100)
+
+segments = []
+
+# Pen
+pen = turtle.Turtle()
+pen.speed(0)
+pen.shape("square")
+pen.color("white")
+pen.penup()
+pen.hideturtle()
+pen.goto(0, 260)
+pen.write("Joueur: {}  Score: 0  Record: 0".format(prenom_joueur), align="center", font=("Courier", 24, "normal"))
+
+# Fonctions
+def go_up():
+    if head.direction != "down":
+        head.direction = "up"
+
+def go_down():
+    if head.direction != "up":
+        head.direction = "down"
+
+def go_left():
+    if head.direction != "right":
+        head.direction = "left"
+
+def go_right():
+    if head.direction != "left":
+        head.direction = "right"
+
+def move():
+    if head.direction == "up" and head.direction != "down":
+        y = head.ycor()
+        head.sety(y + 20)
+
+    if head.direction == "down" and head.direction != "up":
+        y = head.ycor()
+        head.sety(y - 20)
+
+    if head.direction == "left" and head.direction != "right":
+        x = head.xcor()
+        head.setx(x - 20)
+
+    if head.direction == "right" and head.direction != "left":
+        x = head.xcor()
+        head.setx(x + 20)
+
+# Touches du clavier
+wn.listen()
+wn.onkey(go_up, "o")
+wn.onkey(go_down, "l")
+wn.onkey(go_left, "k")
+wn.onkey(go_right, "m")
+
+# Boucle principale du jeu
 while True:
-    next_key = w.getch()
-    key = key if next_key == -1 else next_key
+    wn.update()
 
-    if snake[0][0] in [0, sh] or \
-        snake[0][1]  in [0, sw] or \
-        snake[0] in snake[1:]:
-        curses.endwin()
-        quit()
+    # Vérifier la collision avec les bords
+    if head.xcor() > 290:
+        head.goto(-290, head.ycor())
 
-    new_head = [snake[0][0], snake[0][1]]
+    if head.xcor() < -290:
+        head.goto(290, head.ycor())
 
-    if key == curses.KEY_DOWN:
-        new_head[0] += 1
-    if key == curses.KEY_UP:
-        new_head[0] -= 1
-    if key == curses.KEY_LEFT:
-        new_head[1] -= 1
-    if key == curses.KEY_RIGHT:
-        new_head[1] += 1
+    if head.ycor() > 290:
+        head.goto(head.xcor(), -290)
 
-    snake.insert(0, new_head)
+    if head.ycor() < -290:
+        head.goto(head.xcor(), 290)
 
-    if snake[0] == food:
-        score += 1
-        food = None
-        while food is None:
-            nf = [
-                random.randint(1, sh-1),
-                random.randint(1, sw-1)
-            ]
-            food = nf if nf not in snake else None
-        w.addch(food[0], food[1], curses.ACS_PI, curses.color_pair(2))
-    else:
-        tail = snake.pop()
-        w.addch(int(tail[0]), int(tail[1]), ' ')
+    # Vérifier la collision avec la nourriture
+    if head.distance(food) < 20:
+        # Déplacer la nourriture à un endroit aléatoire
+        x = random.randint(-290, 290)
+        y = random.randint(-290, 290)
+        food.goto(x, y)
 
-    w.addch(int(snake[0][0]), int(snake[0][1]), curses.ACS_CKBOARD, curses.color_pair(1))
+        # Ajouter un segment
+        new_segment = turtle.Turtle()
+        new_segment.speed(0)
+        new_segment.shape("square")
+        new_segment.color("red")
+        new_segment.penup()
+        segments.append(new_segment)
+
+        # Réduire le délai
+        delay -= 0.001
+
+        # Augmenter le score
+        score += 10
+
+        if score > high_score:
+            high_score = score
+
+        # Mettre à jour l'affichage du score
+        pen.clear()
+        pen.write("Joueur: {}  Score: {}  Record: {}".format(prenom_joueur, score, high_score), align="center", font=("Courier", 24, "normal"))
+
+    # Déplacer les segments à la fin en ordre inverse
+    for index in range(len(segments) - 1, 0, -1):
+        x = segments[index - 1].xcor()
+        y = segments[index - 1].ycor()
+        segments[index].goto(x, y)
+
+    # Déplacer le segment 0 où se trouve la tête
+    if len(segments) > 0:
+        x = head.xcor()
+        y = head.ycor()
+        segments[0].goto(x, y)
+
+    move()
+
+    # Vérifier la collision de la tête avec les segments du corps
+    for segment in segments:
+        if segment.distance(head) < 20:
+            time.sleep(1)
+            head.goto(0, 0)
+            head.direction = "stop"
+
+            # Cacher les segments
+            for segment in segments:
+                segment.goto(1000, 1000)
+
+            # Effacer la liste des segments
+            segments.clear()
+
+            # Réinitialiser le score
+            score = 0
+
+            # Réinitialiser le délai
+            delay = 0.1
+
+            # Mettre à jour l'affichage du score
+            pen.clear()
+            pen.write("Joueur: {}  Score: {}  Record: {}".format(prenom_joueur, score, high_score), align="center", font=("Courier", 24, "normal"))
+
+    time.sleep(delay)
+
+turtle.mainloop()
