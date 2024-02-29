@@ -3,6 +3,7 @@ import curses
 
 s = curses.initscr()
 curses.curs_set(0)
+curses.start_color()  # Add this line
 sh, sw = s.getmaxyx()
 w = curses.newwin(sh, sw, 0, 0)
 w.keypad(1)
