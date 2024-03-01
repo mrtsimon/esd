@@ -1,43 +1,44 @@
-# Snake Game en Turtle - Readme
+# Snake Game in Turtle - Readme
 
-## Contexte
+## 🐍 Context
 
-Ce projet a été créé dans le but de fournir une version du célèbre jeu Snake, utilisant la bibliothèque Turtle en Python. L'idée derrière ce projet est de démontrer comment créer un jeu simple tout en utilisant une interface graphique basique avec Turtle.
+This project was created with the aim of providing a version of the famous Snake game, using the Turtle library in Python. The idea behind this project is to demonstrate how to create a simple game while using a basic graphical interface with Turtle.
 
-### Inspiration personnelle
+### Personal Inspiration
 
-Le choix de recréer le jeu Snake a été motivé par la nostalgie de l'enfance, où ce jeu classique a été un passe-temps divertissant pour de nombreuses personnes. C'était également une opportunité d'explorer les capacités de la bibliothèque Turtle pour créer des jeux simples.
+The choice to recreate the Snake game was motivated by childhood nostalgia, where this classic game was an entertaining pastime for me. It was also an opportunity to explore the capabilities of the Turtle library to create simple games with a small graphical interface.
 
-## Snake Game
+## 🎮 Snake Game
 
-### Présentation
+### 🐍 Presentation
 
-**Snake Game** est un jeu vidéo classique qui a vu le jour dans les années 1970. Il est devenu célèbre après avoir été intégré à de nombreux téléphones mobiles dans les années 1990. Le concept du jeu est simple : guider un serpent autour de l'écran pour manger de la nourriture, ce qui fait grandir le serpent. L'objectif est de survivre aussi longtemps que possible sans entrer en collision avec les bords de l'écran ou avec le corps du serpent.
+**Snake Game** is a classic video game that originated in the 1970s. It became famous after being integrated into many mobile phones in the 1990s. The concept of the game is simple: guide a snake around the screen to eat food, which makes the snake grow. The goal is to survive as long as possible without colliding with the edges of the screen or with the snake's body.
 
-### Origines
+### Origins
 
-Le jeu Snake a été initialement créé par Taneli Armanto, un ingénieur finlandais, en 1997. Il était inclus dans les téléphones Nokia et est devenu un incontournable des jeux mobiles. Depuis, de nombreuses variantes du jeu ont été développées pour diverses plates-formes.
+The Snake game was originally created by Taneli Armanto, a Finnish engineer, in 1997. It was included in Nokia phones and became a staple of mobile gaming. Since then, many variations of the game have been developed for various platforms.
 
-![Snake Wikipedia](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Classic_Snake_game_screenshot.png/300px-Classic_Snake_game_screenshot.png)
+![Snake Wikipedia](https://www.coolmathgames.com/sites/default/files/Snake_OG-logo.jpg)
 
-*Image: Capture d'écran du jeu Snake classique*
+### How to Play
+- Enter your name to save your progress.
+- Use your keyboard keys to control the snake:
+  - "W" to go up,
+  - "S" to go down,
+  - "A" to go left, and
+  - "D" to go right.
+- Eat the food to make the snake grow and increase your score.
+- Avoid hitting the edges of the screen or your own body.
+- Try to achieve the highest score possible!
 
-### Comment jouer
+## 💻 How to Run the Code
 
-- Utilisez les touches de votre clavier pour diriger le serpent :
-  - "O" pour monter,
-  - "L" pour descendre,
-  - "K" pour aller à gauche, et
-  - "M" pour aller à droite.
-- Mangez la nourriture pour faire grandir le serpent et augmenter votre score.
-- Évitez de heurter les bords de l'écran ou votre propre corps.
-- Essayez d'atteindre le meilleur score possible !
-
-## Comment exécuter le code
-
-Pour exécuter le code, assurez-vous d'avoir Python installé sur votre machine. Copiez le code dans un fichier Python (par exemple, snake_game.py) et exécutez-le avec votre interpréteur Python.
+To run the code, make sure you have Python installed on your machine. Copy the code into a Python file (e.g., snake_game.py) and run it with your Python interpreter.
 
 ```bash
-python3 snake_game.py
+python3 snake.py
 ```
 
+### Tutorial Followed for the Project
+
+It was the first time I had to code a Python project with a graphical interface, so I was inspired/followed this [Python tutorial](https://www.youtube.com/watch?v=EIwsEJ5y79U).

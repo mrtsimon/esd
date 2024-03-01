@@ -1,6 +1,7 @@
 import turtle
 import time
 import random
+import tkinter as tk
 import sys
 
 delay = 0.1
@@ -10,10 +11,6 @@ try:
 except turtle.Terminator:
     print("Pas d'interface graphique disponible. Quitter le programme.")
     sys.exit()
-
-# Score
-score = 0
-high_score = 0
 
 # Initialiser le prénom du joueur
 prenom_joueur = turtle.textinput("Bienvenue au Snake Game!", "Entrez votre prénom: ")
@@ -55,6 +52,72 @@ pen.goto(0, 260)
 pen.write("Joueur: {}  Score: 0  Record: 0".format(prenom_joueur), align="center", font=("Courier", 24, "normal"))
 
 # Fonctions
+def nouvelle_partie(record_actuel):
+    global score
+    global delay
+    global high_score
+
+    time.sleep(1)
+    head.goto(0, 0)
+    head.direction = "stop"
+
+    # Cacher les segments
+    for segment in segments:
+        segment.goto(1000, 1000)
+
+    # Effacer la liste des segments
+    segments.clear()
+
+    # Réinitialiser le score
+    score = 0
+
+    # Réinitialiser le délai
+    delay = 0.1
+
+    # Mettre à jour l'affichage du score
+    pen.clear()
+    pen.write("Joueur: {}  Score: {}  Record: {}".format(prenom_joueur, score, high_score), align="center", font=("Courier", 24, "normal"))
+
+    #Fermer la fenetre score
+    root.quit()
+
+    #Initialiser la position du serpent
+    head.goto(0, 0)
+
+# Fonction pour définir l'action du bouton "Nouvelle partie"
+def nouvelle_partie_action():
+    nouvelle_partie(high_score)
+
+# Modifier le code pour la fonction game_over()
+def quit():
+    sys.exit()
+
+def game_over():
+    
+    # Créer une fenêtre Tkinter
+    root = tk.Tk()
+    root.title("Game Over")
+    root.geometry("400x300")
+    root.configure(bg="blue")
+
+    # Afficher le tableau des scores
+    score_label = tk.Label(root, text="Tableau des scores", bg="blue", fg="white", font=("Courier", 20, "bold"))
+    score_label.pack()
+
+    # Afficher le score actuel
+    current_score_label = tk.Label(root, text="Votre score: {}".format(score), bg="blue", fg="white", font=("Courier", 16))
+    current_score_label.pack()            
+
+    # Modifier la commande associée au bouton "Nouvelle partie"
+    new_game_button = tk.Button(root, text="Nouvelle partie", bg="white", fg="blue", font=("Courier", 14, "bold"), command=nouvelle_partie_action)
+    new_game_button.pack(pady=20)
+
+    # Afficher le bouton "Quitter"
+    quit_button = tk.Button(root, text="Quitter", bg="white", fg="blue", font=("Courier", 14, "bold"), command=quit)
+    quit_button.pack(pady=10)
+
+    root.mainloop()
+
 def go_up():
     if head.direction != "down":
         head.direction = "up"
@@ -95,22 +158,17 @@ wn.onkey(go_down, "l")
 wn.onkey(go_left, "k")
 wn.onkey(go_right, "m")
 
+# Initialiser le score
+score = 0
+high_score = 0
+
 # Boucle principale du jeu
 while True:
     wn.update()
 
     # Vérifier la collision avec les bords
-    if head.xcor() > 290:
-        head.goto(-290, head.ycor())
-
-    if head.xcor() < -290:
-        head.goto(290, head.ycor())
-
-    if head.ycor() > 290:
-        head.goto(head.xcor(), -290)
-
-    if head.ycor() < -290:
-        head.goto(head.xcor(), 290)
+    if head.xcor() > 290 or head.xcor() < -290 or head.ycor() > 290 or head.ycor() < -290:
+        game_over()  # Sortir de la boucle si le serpent touche les bords
 
     # Vérifier la collision avec la nourriture
     if head.distance(food) < 20:
@@ -157,26 +215,7 @@ while True:
     # Vérifier la collision de la tête avec les segments du corps
     for segment in segments:
         if segment.distance(head) < 20:
-            time.sleep(1)
-            head.goto(0, 0)
-            head.direction = "stop"
-
-            # Cacher les segments
-            for segment in segments:
-                segment.goto(1000, 1000)
-
-            # Effacer la liste des segments
-            segments.clear()
-
-            # Réinitialiser le score
-            score = 0
-
-            # Réinitialiser le délai
-            delay = 0.1
-
-            # Mettre à jour l'affichage du score
-            pen.clear()
-            pen.write("Joueur: {}  Score: {}  Record: {}".format(prenom_joueur, score, high_score), align="center", font=("Courier", 24, "normal"))
+            game_over()
 
     time.sleep(delay)
 
