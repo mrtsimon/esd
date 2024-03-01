@@ -23,10 +23,10 @@ The Snake game was originally created by Taneli Armanto, a Finnish engineer, in 
 ### How to Play
 - Enter your name to save your progress.
 - Use your keyboard keys to control the snake:
-  - "W" to go up,
-  - "S" to go down,
-  - "A" to go left, and
-  - "D" to go right.
+  - "O" to go up,
+  - "L" to go down,
+  - "K" to go left, and
+  - "M" to go right.
 - Eat the food to make the snake grow and increase your score.
 - Avoid hitting the edges of the screen or your own body.
 - Try to achieve the highest score possible!
